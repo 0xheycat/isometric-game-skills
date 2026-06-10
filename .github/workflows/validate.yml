@@ -1,0 +1,30 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate-skills:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Validate all SKILL.md files
+        run: python3 scripts/validate_skills.py
+      - name: Fail if skills.json is stale
+        run: |
+          git diff --exit-code skills.json \
+            || (echo "::error::skills.json is out of date — run scripts/validate_skills.py and commit." && exit 1)
+
+  test-engine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Unit-test the isometric engine math
+        run: node --test engine/iso.test.mjs

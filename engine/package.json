@@ -1,0 +1,11 @@
+{
+  "name": "isometric-engine-reference",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Canonical, tested 2:1 isometric math used by the skills and the live demo.",
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "MIT"
+}

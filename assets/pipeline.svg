@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="642" viewBox="0 0 1060 642" font-family="Arial,sans-serif">
+<rect x="0" y="0" width="1060" height="642" rx="20" fill="#0A0A0F"/>
+<text x="24" y="50" font-size="24" font-weight="800" fill="#F5F3EF">Isometric Game Skills — the full pipeline</text>
+<text x="24" y="74" font-size="13" fill="#B5B2AC">All 20 skills, chained from empty folder to playable scene. Router: using-isometric-skills.</text>
+<rect x="24" y="95" width="168" height="32" rx="16" fill="#16161F" stroke="#F5B45A" stroke-opacity=".6"/>
+<text x="108.0" y="116" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="700" fill="#F5B45A">Phase 0 · Setup</text>
+<rect x="208" y="96" width="173" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="294.5" y="116" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">comfyui-lowvram-setup</text>
+<rect x="391" y="96" width="187" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="484.5" y="116" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">isometric-art-direction</text>
+<rect x="24" y="188" width="168" height="32" rx="16" fill="#16161F" stroke="#F5B45A" stroke-opacity=".6"/>
+<text x="108.0" y="209" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="700" fill="#F5B45A">Phase 1 · Generate art</text>
+<rect x="208" y="170" width="208" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="312.0" y="190" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">seamless-isometric-terrain</text>
+<rect x="426" y="170" width="194" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="523.0" y="190" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">isometric-object-sprites</text>
+<rect x="630" y="170" width="208" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="734.0" y="190" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">isometric-building-sprites</text>
+<rect x="208" y="208" width="215" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="315.5" y="228" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">isometric-character-sprites</text>
+<rect x="433" y="208" width="208" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="537.0" y="228" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">animated-sprite-generation</text>
+<rect x="24" y="281" width="168" height="32" rx="16" fill="#16161F" stroke="#F5B45A" stroke-opacity=".6"/>
+<text x="108.0" y="302" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="700" fill="#F5B45A">Phase 2 · Process</text>
+<rect x="208" y="282" width="208" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="312.0" y="302" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">transparent-cutout-cleanup</text>
+<rect x="426" y="282" width="201" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="526.5" y="302" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">spritesheet-atlas-packing</text>
+<rect x="637" y="282" width="180" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="727.0" y="302" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">autotiling-transitions</text>
+<rect x="24" y="355" width="168" height="32" rx="16" fill="#16161F" stroke="#F5B45A" stroke-opacity=".6"/>
+<text x="108.0" y="376" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="700" fill="#F5B45A">Phase 3 · Engine</text>
+<rect x="208" y="356" width="159" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="287.5" y="376" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">isometric-grid-math</text>
+<rect x="377" y="356" width="215" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="484.5" y="376" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">canvas2d-isometric-renderer</text>
+<rect x="602" y="356" width="187" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="695.5" y="376" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">depth-sorting-occlusion</text>
+<rect x="799" y="356" width="159" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="878.5" y="376" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">tilemap-data-format</text>
+<rect x="24" y="429" width="168" height="32" rx="16" fill="#16161F" stroke="#F5B45A" stroke-opacity=".6"/>
+<text x="108.0" y="450" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="700" fill="#F5B45A">Phase 4 · Interaction</text>
+<rect x="208" y="430" width="194" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="305.0" y="450" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">tile-picking-interaction</text>
+<rect x="412" y="430" width="194" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="509.0" y="450" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">camera-pan-zoom-controls</text>
+<rect x="616" y="430" width="173" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="702.5" y="450" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">isometric-pathfinding</text>
+<rect x="24" y="503" width="168" height="32" rx="16" fill="#16161F" stroke="#F5B45A" stroke-opacity=".6"/>
+<text x="108.0" y="524" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="700" fill="#F5B45A">Phase 5 · Ship</text>
+<rect x="208" y="504" width="243" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="329.5" y="524" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">canvas-performance-optimization</text>
+<rect x="461" y="504" width="201" height="30" rx="9" fill="#111118" stroke="#F5B45A" stroke-opacity=".28"/>
+<text x="561.5" y="524" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-size="12.5" fill="#F5F3EF">asset-pipeline-automation</text>
+<path d="M108.0 129 L108.0 186" stroke="#F5B45A" stroke-opacity=".5" stroke-width="2"/>
+<path d="M103 182 L108.0 188 L113 182" fill="none" stroke="#F5B45A" stroke-opacity=".7" stroke-width="2"/>
+<path d="M108.0 222 L108.0 279" stroke="#F5B45A" stroke-opacity=".5" stroke-width="2"/>
+<path d="M103 275 L108.0 281 L113 275" fill="none" stroke="#F5B45A" stroke-opacity=".7" stroke-width="2"/>
+<path d="M108.0 315 L108.0 353" stroke="#F5B45A" stroke-opacity=".5" stroke-width="2"/>
+<path d="M103 349 L108.0 355 L113 349" fill="none" stroke="#F5B45A" stroke-opacity=".7" stroke-width="2"/>
+<path d="M108.0 389 L108.0 427" stroke="#F5B45A" stroke-opacity=".5" stroke-width="2"/>
+<path d="M103 423 L108.0 429 L113 423" fill="none" stroke="#F5B45A" stroke-opacity=".7" stroke-width="2"/>
+<path d="M108.0 463 L108.0 501" stroke="#F5B45A" stroke-opacity=".5" stroke-width="2"/>
+<path d="M103 497 L108.0 503 L113 497" fill="none" stroke="#F5B45A" stroke-opacity=".7" stroke-width="2"/>
+<rect x="24" y="586" width="1012" height="40" rx="12" fill="#16161F" stroke="#F5B45A"/>
+<text x="530.0" y="611" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="700" fill="#F5B45A">🎯 Goal achieved → a live, playable isometric scene (art + engine) — see GOAL.md</text>
+</svg>

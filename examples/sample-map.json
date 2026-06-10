@@ -1,0 +1,37 @@
+{
+  "name": "sample-island",
+  "version": 1,
+  "tileSize": { "w": 64, "h": 32 },
+  "size": { "cols": 6, "rows": 6 },
+  "tileset": {
+    "0": "water",
+    "1": "sand",
+    "2": "grass",
+    "3": "path",
+    "4": "field",
+    "5": "bare-ground"
+  },
+  "layers": [
+    {
+      "name": "ground",
+      "type": "tiles",
+      "data": [
+        [0, 0, 1, 1, 0, 0],
+        [0, 1, 2, 2, 1, 0],
+        [1, 2, 2, 3, 2, 1],
+        [1, 2, 3, 3, 5, 1],
+        [0, 1, 2, 5, 4, 1],
+        [0, 0, 1, 1, 1, 0]
+      ]
+    },
+    {
+      "name": "objects",
+      "type": "objects",
+      "items": [
+        { "col": 2, "row": 1, "sprite": "tree" },
+        { "col": 3, "row": 3, "sprite": "house" },
+        { "col": 4, "row": 4, "sprite": "rock" }
+      ]
+    }
+  ]
+}

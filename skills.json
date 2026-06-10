@@ -1,0 +1,105 @@
+{
+  "count": 20,
+  "skills": [
+    {
+      "name": "animated-sprite-generation",
+      "path": "skills/animated-sprite-generation/SKILL.md",
+      "description": "Use when creating looping animated isometric sprites (water, fire, windmills, flags) as frame strips that play back smoothly in-engine."
+    },
+    {
+      "name": "asset-pipeline-automation",
+      "path": "skills/asset-pipeline-automation/SKILL.md",
+      "description": "Use when automating the path from generated sprites to a shipped atlas + map so re-generating art does not mean hours of manual rework."
+    },
+    {
+      "name": "autotiling-transitions",
+      "path": "skills/autotiling-transitions/SKILL.md",
+      "description": "Use when making different terrain types (grass, water, sand) blend with automatic edge and corner transition tiles instead of hard seams."
+    },
+    {
+      "name": "camera-pan-zoom-controls",
+      "path": "skills/camera-pan-zoom-controls/SKILL.md",
+      "description": "Use when adding pan, zoom, and clamping to an isometric camera so the world stays crisp and within bounds across screen sizes."
+    },
+    {
+      "name": "canvas-performance-optimization",
+      "path": "skills/canvas-performance-optimization/SKILL.md",
+      "description": "Use when an isometric Canvas game drops frames, to cut draw calls and allocations and hold a steady 60fps."
+    },
+    {
+      "name": "canvas2d-isometric-renderer",
+      "path": "skills/canvas2d-isometric-renderer/SKILL.md",
+      "description": "Use when building a Canvas 2D renderer that draws an isometric tilemap and sprites efficiently with correct ordering."
+    },
+    {
+      "name": "comfyui-lowvram-setup",
+      "path": "skills/comfyui-lowvram-setup/SKILL.md",
+      "description": "Use when configuring ComfyUI to generate SDXL isometric assets on a 12GB GPU (RTX 3060) without out-of-memory crashes."
+    },
+    {
+      "name": "depth-sorting-occlusion",
+      "path": "skills/depth-sorting-occlusion/SKILL.md",
+      "description": "Use when sprites draw in the wrong order so characters appear in front of objects they should be behind in an isometric scene."
+    },
+    {
+      "name": "isometric-art-direction",
+      "path": "skills/isometric-art-direction/SKILL.md",
+      "description": "Use when starting an isometric project to lock ONE consistent art style (angle, light, palette, scale) before generating any asset."
+    },
+    {
+      "name": "isometric-building-sprites",
+      "path": "skills/isometric-building-sprites/SKILL.md",
+      "description": "Use when generating isometric buildings (houses, barns, shops) that sit on a defined tile footprint and depth-sort correctly with characters."
+    },
+    {
+      "name": "isometric-character-sprites",
+      "path": "skills/isometric-character-sprites/SKILL.md",
+      "description": "Use when generating isometric characters in consistent 8 directions with a fixed feet-anchor for movement and depth sorting."
+    },
+    {
+      "name": "isometric-grid-math",
+      "path": "skills/isometric-grid-math/SKILL.md",
+      "description": "Use when converting between grid coordinates and screen pixels in a 2:1 isometric projection, including screen-to-grid for mouse picking."
+    },
+    {
+      "name": "isometric-object-sprites",
+      "path": "skills/isometric-object-sprites/SKILL.md",
+      "description": "Use when generating isolated isometric props (trees, rocks, bushes, stumps) that drop cleanly onto tiles with correct scale and a transparent background."
+    },
+    {
+      "name": "isometric-pathfinding",
+      "path": "skills/isometric-pathfinding/SKILL.md",
+      "description": "Use when units must navigate an isometric grid around obstacles using A* on the walkable layer with correct iso neighbor rules."
+    },
+    {
+      "name": "seamless-isometric-terrain",
+      "path": "skills/seamless-isometric-terrain/SKILL.md",
+      "description": "Generate seamless, tileable isometric terrain tiles (Hay Day / farm-game style) with ComfyUI on consumer GPUs (RTX 3060 12GB). Use this skill whenever the user wants to create ground tiles (grass, dirt, water, road, plowed field, sand, stone, snow), build a tilemap that connects without seams or gaps, fix tiles that have visible edges/mismatched shapes/mixed colors, or set up the proven \"Resep D\" isometric tile workflow, prompts, and post-processing (transparent PNG via rembg/SAM)."
+    },
+    {
+      "name": "spritesheet-atlas-packing",
+      "path": "skills/spritesheet-atlas-packing/SKILL.md",
+      "description": "Use when packing many isometric sprites into a texture atlas with a JSON map so the engine draws from one image with correct frame coordinates."
+    },
+    {
+      "name": "tile-picking-interaction",
+      "path": "skills/tile-picking-interaction/SKILL.md",
+      "description": "Use when converting a mouse/touch position into the correct isometric tile for selection, highlighting, and placement."
+    },
+    {
+      "name": "tilemap-data-format",
+      "path": "skills/tilemap-data-format/SKILL.md",
+      "description": "Use when designing the map data format (layers, tiles, objects, metadata) so maps are editable, versionable, and engine-agnostic."
+    },
+    {
+      "name": "transparent-cutout-cleanup",
+      "path": "skills/transparent-cutout-cleanup/SKILL.md",
+      "description": "Use when removing backgrounds from generated sprites to get clean alpha edges with no halo, fringe, or leftover background pixels."
+    },
+    {
+      "name": "using-isometric-skills",
+      "path": "skills/using-isometric-skills/SKILL.md",
+      "description": "Use when starting ANY isometric game task to route the request to the correct specialized skill before writing code or generating art."
+    }
+  ]
+}

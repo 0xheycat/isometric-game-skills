@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="420" viewBox="0 0 860 420" font-family="Segoe UI, Arial, sans-serif">
+<rect width="860" height="420" fill="#ffffff"/>
+<text x="30" y="40" font-size="24" font-weight="700" fill="#0f1b33">Depth Sorting &amp; Occlusion</text>
+<text x="30" y="66" font-size="14" fill="#5b6b88">Draw order IS depth. Sort drawables by their anchor tile: depth = row + col.</text>
+<!-- panels -->
+<rect x="40" y="95" width="360" height="250" rx="14" fill="#fff5f5" stroke="#f3b4b4" stroke-width="2"/>
+<rect x="460" y="95" width="360" height="250" rx="14" fill="#f3fbf3" stroke="#a9dea6" stroke-width="2"/>
+<text x="60" y="128" font-size="18" font-weight="700" fill="#c0392b">✗ WRONG</text>
+<text x="480" y="128" font-size="18" font-weight="700" fill="#1e8449">✓ CORRECT</text>
+<text x="60" y="150" font-size="12" fill="#a05050">Character in front, but drawn first → tree covers it</text>
+<text x="480" y="150" font-size="12" fill="#3a7a52">Sorted by row+col → nearer character on top</text>
+<g transform="translate(-20,-40)"><polygon points="150,189 192,210 150,231 108,210" fill="#cfeccd" stroke="#7bbf78" stroke-width="1.5"/><polygon points="230,229 272,250 230,271 188,250" fill="#cfeccd" stroke="#7bbf78" stroke-width="1.5"/><g opacity="1.0"><circle cx="150" cy="166" r="11" fill="#f1c27d"/><rect x="141" y="162" width="18" height="6" rx="3" fill="#caa15a"/><rect x="140" y="176" width="20" height="26" rx="6" fill="#3f6fb0"/><rect x="141" y="202" width="7" height="14" fill="#5a3b22"/><rect x="152" y="202" width="7" height="14" fill="#5a3b22"/></g><rect x="224" y="232" width="12" height="26" rx="3" fill="#8a5a32"/><circle cx="230" cy="220" r="26" fill="#4e9a4a"/><circle cx="216" cy="228" r="18" fill="#5cb157"/><circle cx="244" cy="228" r="18" fill="#5cb157"/></g>
+<g transform="translate(-20,-40)"><polygon points="620,189 662,210 620,231 578,210" fill="#cfeccd" stroke="#7bbf78" stroke-width="1.5"/><polygon points="700,229 742,250 700,271 658,250" fill="#cfeccd" stroke="#7bbf78" stroke-width="1.5"/><rect x="614" y="192" width="12" height="26" rx="3" fill="#8a5a32"/><circle cx="620" cy="180" r="26" fill="#4e9a4a"/><circle cx="606" cy="188" r="18" fill="#5cb157"/><circle cx="634" cy="188" r="18" fill="#5cb157"/><g opacity="1.0"><circle cx="700" cy="206" r="11" fill="#f1c27d"/><rect x="691" y="202" width="18" height="6" rx="3" fill="#caa15a"/><rect x="690" y="216" width="20" height="26" rx="6" fill="#3f6fb0"/><rect x="691" y="242" width="7" height="14" fill="#5a3b22"/><rect x="702" y="242" width="7" height="14" fill="#5a3b22"/></g></g>
+<rect x="40" y="360" width="780" height="44" rx="10" fill="#0f1b33"/>
+<text x="60" y="388" font-size="15" fill="#7fb0ff" font-family="monospace">objects.sort((a,b) =&gt; (a.row + a.col) - (b.row + b.col));  // draw back → front</text>
+</svg>

@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Isometric Game Skills — Live Demo</title>
+<style>
+  :root{ --gold:#f5b45a; --ink:#0a0a0f; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+  body{ background:#0a0a0f; color:#f5f3ef; font-family:system-ui,Segoe UI,Arial,sans-serif; overflow:hidden; }
+  #c{ display:block; width:100vw; height:100vh; cursor:grab; }
+  #c:active{ cursor:grabbing; }
+  .panel{ position:fixed; backdrop-filter:blur(8px); background:rgba(17,17,24,.72);
+    border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:14px 16px; }
+  #hud{ top:16px; left:16px; max-width:300px; }
+  #hud h1{ font-size:16px; letter-spacing:.3px; }
+  #hud h1 span{ color:var(--gold); }
+  #hud p{ font-size:12px; color:#b5b2ac; margin-top:6px; line-height:1.5; }
+  #hud .skills{ margin-top:10px; display:flex; flex-wrap:wrap; gap:6px; }
+  #hud .skills b{ font-weight:600; font-size:10.5px; color:#0a0a0f; background:var(--gold);
+    padding:3px 7px; border-radius:999px; }
+  #stats{ top:16px; right:16px; font-size:12px; color:#b5b2ac; }
+  #stats b{ color:#f5f3ef; }
+  /* control bar */
+  #controls{ bottom:16px; left:50%; transform:translateX(-50%); display:flex; gap:8px; padding:10px 12px; }
+  #controls button{ font:inherit; font-size:12.5px; color:#f5f3ef; cursor:pointer;
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
+    border-radius:10px; padding:8px 12px; transition:.15s; }
+  #controls button:hover{ background:rgba(245,180,90,.18); border-color:var(--gold); }
+  #controls button.on{ background:var(--gold); color:#0a0a0f; border-color:var(--gold); font-weight:600; }
+  #help{ bottom:16px; right:16px; font-size:11.5px; color:#b5b2ac; text-align:right; }
+  kbd{ background:rgba(255,255,255,.1); border-radius:5px; padding:1px 6px; font-size:11px; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div id="hud" class="panel">
+  <h1>🏔️ Isometric <span>Live Demo</span></h1>
+  <p>A real Canvas2D isometric renderer in one file — no engine, no dependencies. Every technique here comes from a skill in this repo.</p>
+  <div class="skills">
+    <b>grid-math</b><b>renderer</b><b>depth-sort</b><b>autotiling</b><b>tile-picking</b><b>camera</b>
+  </div>
+</div>
+
+<div id="stats" class="panel">
+  Tile: <b id="tile">—</b> &nbsp;|&nbsp; <b id="zoom">1.00x</b> &nbsp;|&nbsp; <b id="fps">0</b> fps
+</div>
+
+<div id="controls" class="panel">
+  <button id="btnRegen">🔄 Regenerate</button>
+  <button id="btnGrid">▦ Grid</button>
+  <button id="btnCoords"># Coords</button>
+  <button id="btnReset">⌖ Reset view</button>
+  <button id="btnSprite">🖼️ Sprites</button>
+</div>
+
+<div id="help" class="panel" style="bottom:70px;">
+  <kbd>drag</kbd> pan &nbsp; <kbd>wheel</kbd> zoom &nbsp; <kbd>hover</kbd> pick
+</div>
+
+<script>
+// =====================================================================
+//  Isometric Game Skills — minimal but real renderer.
+//  Demonstrates: grid math, back-to-front render, depth sorting,
+//  autotiling-ish terrain, tile picking, and a pan/zoom camera.
+// =====================================================================
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+
+// ---- Sprite assets (skills: isometric-*-sprites, spritesheet-atlas-packing) --
+// Real PNG sprites, base64-embedded so the demo runs offline (no CORS/fetch).
+const SPRITE_SRC = {"t0": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAsCAYAAADVX77/AAAByklEQVR4nOXau2nDYBTF8aMN0qXJBAYpCwQygtpM4Da9B0ifVhOk9QiBLBAHtI7T+Bhxrcf3uPfq4T8YDAbb54cbSx8wb+XlcXeVAMq6ac91054xI0Th/HklANRNe+p78bjfVZenf15fyAtgdLjME8IaIGq4zAPCCiBruMwSQhtAdbjMAkILwHS4TBMiF8B1uEwDIhVg1uGyHIhYgEUNl6VAhAIsergsBmIKYFXDZSEQQwCrHi4bg5AAmxou64MgwKaHy7oQBe5sfLfjflcVz+9fZwD4/XyrgPuB4K/gCsC2DsHhrx8/J6AHgG0NQg5ngwBs7RBDw9kkAFsbxNRwFgzAlg4ROpxFA7ClQcQOZ8kAbG6I1OEsG4B5Q+QOZ2oAzBpCazhTB2DaENrDmRkAy4WwGs6uf4eXBmE9HAC+Dy/FzQWRuSG8hvP54CUxbwjv4WzyoqgXhPdwFnxZ3Ari4fHJ4m0BjA9n0TdGtCEsAEKGs+RbY1oQmgAxw1n2zdFcCA2AlOFM7fZ4KkQOQM5wpn5AIhYiBUBjODM7IhMKEQOgOZyZH5KagggBsBjO3I7JDUGMAVgOZ97nBG8g+gA8hjN3AEaILoDncPYPZO4k9tx6ziMAAAAASUVORK5CYII=", "t1": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAsCAYAAADVX77/AAABxUlEQVR4nOXay23CUBCF4bFEDUSiB7sJumBFEYgiohThFV24iUsPbsPZcJA1ftzXzPj1S5FIkDDn28W+RMtWfn4OV0lEZevqrnV1RwtCFMbXK4mIWle7sTcv1b36vHxbfSErgNnhPEsIbYCo4TwLCC2ArOE8TQhpANHhPA0IKQDV4TxJiFwA0+E8CYhUgEWH83IgYgFWNZyXAhEKsOrhvBgIH8CmhvNCIKYANj2cNwfBAXY1nDcGAYBdD+f1IQo62Ph+l+penZrXw+EXouNAYO8JfzgKBPa9m19H1ANAe4Xgw9EAAO0FYmo4mgRAW4XwDUdeALQViNDhKBgArRUidjiKBkBrgUgdjpIB0FIQucNRNgCygpAajsQAkBaE9HAkDoCkILSGo++/w83r0WlcAF1vf1EQ2sOJiMrrsxjcEFkawmo4Xk/eErOGsB6OvDdFrSCsh6Pg2+JaEOefs8bHEtH8cBT9YEQaQgMgZDhKfjQmBSEJEDMcZT8czYWQAEgZjsQej6dC5ADkDEfiByRiIVIAJIYjtSMyoRAxAJLDkfohKR9ECIDGcGR2TG4KYg5AcziyPic4gBgDsBiOzAEQIPoAlsPRP+1JJF+xhiFgAAAAAElFTkSuQmCC", "t2": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAsCAYAAADVX77/AAAByElEQVR4nOXay2kCYRTF8TMdZBdID2MHNpCN+xQQCNPCLG1BhBSQvZs0MB2YgiYbj8h1Ht/j3juvPwiCoJ4fbpz5gGkrb4/NVQIo66Zq66ZqMSFE4fx5JQDUTXXtevG4P+1uT/+8vpAXwOBwmSeENUDUcJkHhBVA1nCZJYQ2gOpwmQWEFoDpcJkmRC6A63CZBkQqwKTDZTkQsQCzGi5LgQgFmPVwWQzEGMCihstCIPoAFj1cNgQhAVY1XNYFQYBVD5c9QhTY2PjHjvvTrjh8v7cAcPn83QHbgeCv4A7A1g7B4V+XjyvQAcDWBiGHs14AtnSIvuFsFIAtDWJsOAsGYHOHCB3OogHY3CBih7NkADY1ROpwlg3AvCFyhzM1AGYNoTWcqQMwbQjt4cwMgOVCWA1n97/Dc4OwHg4A58NP8XRBZGoIr+F83ntJzBvCezgbvSjqBeE9nAVfFreCeHt9sXhbAMPDWfSNEW0IC4CQ4Sz51pgWhCZAzHCWfXM0F0IDIGU4U7s9ngqRA5AznKkfkIiFSAHQGM7MjsiEQsQAaA5n5oekxiBCACyGM7djcn0QQwCWw5n3OcEniC4Aj+HMHYAR4hHAczj7ByiaI+XNwePuAAAAAElFTkSuQmCC", "t3": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAsCAYAAADVX77/AAABx0lEQVR4nOXau23CYBTF8eMlomQIU7NDmpQMEEXZwC0tG6AoA7hMkx1ck4FIw0HWxY/vce/16y8hISEB5yca7A+YtvL22FwlgLKpq2tTV1dMCFE4f14JAE1dXbpe3B9Ou9vTP68v5AUwOFzmCWENEDVc5gFhBZA1XGYJoQ2gOlxmAaEFYDpcpgmRC+A6XKYBkQow6XBZDkQswKyGy1IgQgFmPVwWAzEGsKjhshCIPoBFD5cNQUiAVQ2XdUEQYNXDZW2IAhsb325/OO2K7+PbFQDejz87YDsQ/BXcAdjaITj89/xxAToA2Nog5HDWC8CWDtE3nI0CsKVBjA1nwQBs7hChw1k0AJsbROxwlgzApoZIHc6yAZg3RO5wpgbArCG0hjN1AKYNoT2cmQGwXAir4ez+d3huENbDAeD186t4uCAyNYTXcD7vvSTmDeE9nI1eFPWC8B7Ogi+LW0G8PD9ZvC2A4eEs+saINoQFQMhwlnxrTAtCEyBmOMu+OZoLoQGQMpyp3R5PhcgByBnO1A9IxEKkAGgMZ2ZHZEIhYgA0hzPzQ1JjECEAFsOZ2zG5PoghAMvhzPuc4ANEF4DHcOYOwAjRBvAczv4BLtYnFE7maCYAAAAASUVORK5CYII=", "t4": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAsCAYAAADVX77/AAABzUlEQVR4nOXaO07DUBCF4bGUNiUVa3DSpWIFZg8p6WmzANr0Kb0HsgIqd5gFmSYnssav+5iZ68cvIQUixTlfh32J0pY/fjZXTkR5VRZNVRYNJYTIjK+XExFVZVH3vXk63w+Pl39WX8gKYHQ4zxJCG8BrOM8CQgsgajhPE0IaQHQ4TwNCCkB1OE8SIhbAdDhPAiIUIOlwXgyEL8CshvNCIFwBZj2c5wMxBbCo4TwXiCGARQ/njUFwgFUN5/VBAGDVw3ltiIw2Nr7d6Xw/7G6XY41fiLYDgb07/GErENj3fX2riVoAaK0QfDjqAKC1QAwNR4MAaKkQU8PRJABaCoTrcOQMgOYK4TsceQOguUCEDkfBACgVROxwFA2ArCCkhiMxAKQFIT0ciQMgKQit4ej57/Dtcmw0LoA+vn69ILSHExG9f/5knRsiqSGshuP14C0xawjr4WjypqgVhPVw5HxbXAvi9WWv8bFEND4ceT8YkYbQAHAZjoIfjUlBSAL4DEfRD0djISQAQoYjscfjoRAxADHDkfgBCV+IEACJ4UjtiIwrhA+A5HCkfkhqCsIFQGM4MjsmNwQxBqA5HFmfE+xA9AFYDEfmAAgQbQDL4egf3t8dJVk96ngAAAAASUVORK5CYII=", "t5": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAsCAYAAADVX77/AAAByUlEQVR4nOXaO27CUBCF4eMudfr0aWxlB/TZAE32kCbyIhBN9pCGDaRnBxFpshun4SBr8OM+ZsavX0JCQgLOJxrsC0xbeX1srhJAeap3zaneNZgQonD+vBIATvXu0vXi/nCurk9/vb6QF8DgcJknhDVA1HCZB4QVQNZwmSWENoDqcJkFhBaA6XCZJkQugOtwmQZEKsCkw2U5ELEAsxouS4EIBZj1cFkMxBjAoobLQiD6ABY9XDYEIQFWNVzWBUGAVQ+XtSEKbGx8u/3hXBXvr88NAHx+/1XAdiD4K7gBsLVDcPjx7eUCdACwtUHI4awXgC0dom84GwVgS4MYG86CAdjcIUKHs2gANjeI2OEsGYBNDZE6nGUDMG+I3OFMDYBZQ2gNZ+oATBtCezgzA2C5EFbD2e3v8NwgrIcDwMfXT3F3QWRqCK/hfN57Scwbwns4G70o6gXhPZwFXxa3gnh6fLB4WwDDw1n0jRFtCAuAkOEs+daYFoQmQMxwln1zNBdCAyBlOFO7PZ4KkQOQM5ypH5CIhUgB0BjOzI7IhELEAGgOZ+aHpMYgQgAshjO3Y3J9EEMAlsOZ9znBO4guAI/hzB2AEaIN4Dmc/QMG+B9Z4Ixo4AAAAABJRU5ErkJggg==", "tree": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAA0CAYAAAD46nqNAAABi0lEQVR4nO2XQUoEMRBFS/EEMsKAV5gTuBFcuxTXcwA3nsSNB5i1uHQnCLPxJsKAzcCcQFcJsa10V/2fHjqQv5rpTqpeflJJR6SJ00mpQA8f65/+s+ebDR2fDqCB9cWAnqIdRWxwnnaaYEBvUhQSAkSTIf3cgMx0If2pNXgMuQBZ95A4Z5ZG109XRcC0mNvHz8EtaNTBKeA88eteg1O7Z8mTnf/Q6eLyPD5bLhbFoHZdF39/f+1FRF+P2SJJwabWUC51iu9eblXL01EzysXR8v4DzMEdS/387ipmXfT2/wNodQ+FtPZLOeB90AuJDioCImvPmhSBCzyms9iSXNsjS1Q9DRi067q44YqU20frPovnoAbIKgK+3r9Rl/i0QLT/XgWeehwUwV3MuYW6mHLU5aCI38Uxl7wu9vOrDlohrcmt7bS8oyDaRwRTodoROGSIazpL3vLGLuxBriKxBi0ZB06IuIkMsIgjQ7Cs60W+B1fvh+y7LRm7vo16bmqArBogqwbIqgGymj3g7PULZFaw4oJutYQAAAAASUVORK5CYII=", "rock": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAYCAYAAADtaU2/AAAA1ElEQVR4nO2VsRGDMAxFZebwDmGQdKnYhAIqKNiEKl0GITt4D1JxZ4xkf9mh4filJPS+ZANEt64uoyme3581jDWvp6qHCswBSw0ki0OotXaXd85lwasSaBhDNpMEI9ASOAvWQHPh0VWfqeuB235c234UVw6B/VdGWyMZOIAllzE4YizsW3HJ77LAAC4mPe/DDRfc9KhrtkFMEtTXNHQmesZIk9z65OVCm2lN7j7qsetPxK9eC5yGzhzACLxEG5SIWbWfPAtKlPgf/2N6aRB4Oo0JZGs/1D9ywSa/ljcAAAAASUVORK5CYII=", "house": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAwCAYAAABqkJjhAAABCUlEQVR4nO3VPQ7CMAwF4BBxAE4AKxsbV2BnREgMXIgZiQEJMbJzA8TGxm1gqoRK/uz4hUT4jU1rf3Xb1BiNRuPMaTt7IepaRNEOi0CLg/tIabQo2IeTRIuBYygp9CC3AAeyPjzYfbMmzJ1azrTZ4NxHzL2eBZZ6Hzl1yGDpbYpajwRG/b0odZPBKCy1fhIYjaX0iYJLYVP7eTfw0lBXXD8Y54RrwBrjdnyBa8F26XtsaLGWfLqs62CN6Xzej+5+XP38Buabc9pHV3OaAw9LN7xcn8H15WIaXG9uwgpGR8HoiOwSu/0t+dzxZJTV6z8nTElsn42luQkrGB0Fo6NgdBSMjoLRaQ7cXN4/3Fst87ozEQAAAABJRU5ErkJggg=="};
+const IMG = {}; let spritesReady = false, spriteMode = false, _loaded = 0;
+const _keys = Object.keys(SPRITE_SRC);
+for(const k of _keys){
+  const im = new Image();
+  im.onload = ()=>{ if(++_loaded === _keys.length) spritesReady = true; };
+  im.src = SPRITE_SRC[k]; IMG[k] = im;
+}
+
+// ---- Grid math (skill: isometric-grid-math) -------------------------
+const W = 64, H = 32, T = 12;        // tile width, height (2:1), block thickness
+const MAP = 18;                      // map size MAP x MAP
+
+function gridToScreen(col, row){
+  return { x:(col - row) * (W/2), y:(col + row) * (H/2) };
+}
+function screenToGrid(x, y){         // inverse transform (for picking)
+  const col = (x/(W/2) + y/(H/2)) / 2;
+  const row = (y/(H/2) - x/(W/2)) / 2;
+  return { col:Math.floor(col), row:Math.floor(row) };
+}
+
+// ---- Procedural terrain (skill: tilemap-data-format) ----------------
+// Tile types: 0 water, 1 sand, 2 grass, 3 road (dirt path), 4 field, 5 bare ground (dirt / tanah)
+let seed = 0;
+function noise(x, y){
+  const s = seed;
+  return (Math.sin(x*0.7+s)+Math.cos(y*0.6-s)+Math.sin((x+y)*0.35+s)+Math.cos((x-y)*0.5))/4;
+}
+let ground = [], objects = [], objAt = {};
+function generate(){
+  ground = []; objects = []; objAt = {};
+  for(let r=0;r<MAP;r++){ ground[r]=[]; for(let c=0;c<MAP;c++){
+    const n = noise(c, r);
+    let t = 2;
+    if(n < -0.55) t = 0;            // water
+    else if(n < -0.35) t = 1;       // sand near water
+    else if(n > 0.5) t = 4;         // field on high ground
+    else if(n > 0.3) t = 5;         // bare ground (dirt / tanah)
+    ground[r][c] = t;
+  }}
+  for(let c=0;c<MAP;c++){ const r = Math.round(MAP/2 + Math.sin(c*0.5+seed)*2); if(ground[r] && ground[r][c]!==0) ground[r][c]=3; }
+  for(let r=0;r<MAP;r++) for(let c=0;c<MAP;c++){
+    const t = ground[r][c];
+    if((t===2||t===4) && Math.random()<0.12){
+      const roll = Math.random();
+      objects.push({ col:c, row:r, kind: roll<0.55?'tree' : roll<0.8?'rock' : 'house' });
+    }
+  }
+  for(const o of objects) objAt[o.row+'_'+o.col]=o;
+}
+
+// ---- Palette --------------------------------------------------------
+const TILE = {
+  0:{top:'#4f9ad6', l:'#2f6fa8', r:'#3f86c4'},   // water
+  1:{top:'#e6d2a0', l:'#bda674', r:'#d3bd8a'},   // sand
+  2:{top:'#7cc36b', l:'#4f9a4a', r:'#69b15a'},   // grass
+  3:{top:'#c8a877', l:'#9c8050', r:'#b59866'},   // dirt path
+  4:{top:'#caa24a', l:'#9a7a2f', r:'#b58f3c'},   // field
+  5:{top:'#a9763f', l:'#6f4a28', r:'#8c5c30'},   // bare ground (dirt / tanah)
+};
+
+// ---- State + camera (skill: camera-pan-zoom-controls) ---------------
+const cam = { x:0, y:0, zoom:1 };
+let dragging=false, lastX=0, lastY=0;
+let mouseX=0, mouseY=0, hover=null;
+let showGrid=false, showCoords=false;
+
+function resize(){ canvas.width=innerWidth; canvas.height=innerHeight; }
+addEventListener('resize', resize); resize();
+function resetView(){
+  cam.zoom=1;
+  const c0=gridToScreen(0,0), cN=gridToScreen(MAP-1,MAP-1);
+  cam.x = (c0.x+cN.x)/2; cam.y=(c0.y+cN.y)/2;
+}
+resetView();
+
+canvas.addEventListener('mousedown', e=>{ dragging=true; lastX=e.clientX; lastY=e.clientY; });
+addEventListener('mouseup', ()=> dragging=false);
+addEventListener('mousemove', e=>{
+  mouseX=e.clientX; mouseY=e.clientY;
+  if(dragging){ cam.x -= (e.clientX-lastX)/cam.zoom; cam.y -= (e.clientY-lastY)/cam.zoom; lastX=e.clientX; lastY=e.clientY; }
+});
+canvas.addEventListener('wheel', e=>{ e.preventDefault();
+  const f = e.deltaY<0 ? 1.1 : 1/1.1;
+  cam.zoom = Math.min(2.5, Math.max(0.4, cam.zoom*f));
+}, {passive:false});
+
+// ---- Controls -------------------------------------------------------
+const bGrid=document.getElementById('btnGrid'), bCoords=document.getElementById('btnCoords');
+document.getElementById('btnRegen').onclick = ()=>{ seed += 1.7; generate(); };
+bGrid.onclick   = ()=>{ showGrid=!showGrid; bGrid.classList.toggle('on', showGrid); };
+bCoords.onclick = ()=>{ showCoords=!showCoords; bCoords.classList.toggle('on', showCoords); };
+document.getElementById('btnReset').onclick = resetView;
+const bSprite = document.getElementById('btnSprite');
+bSprite.onclick = ()=>{ if(!spritesReady) return; spriteMode=!spriteMode; bSprite.classList.toggle('on', spriteMode); };
+
+function worldOrigin(){ return { ox: canvas.width/2 - cam.x*cam.zoom, oy: canvas.height/2 - cam.y*cam.zoom }; }
+
+// ---- Drawing helpers ------------------------------------------------
+function circle(x,y,r){ ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); }
+function hx2(h){ const n=parseInt(h.slice(1),16); return [(n>>16)&255,(n>>8)&255,n&255]; }
+function mix(a,b,t){ const pa=hx2(a),pb=hx2(b); return `rgb(${Math.round(pa[0]+(pb[0]-pa[0])*t)},${Math.round(pa[1]+(pb[1]-pa[1])*t)},${Math.round(pa[2]+(pb[2]-pa[2])*t)})`; }
+
+function drawTile(col, row, sx, sy, z){
+  const t = ground[row][col];
+  if(spriteMode && spritesReady){
+    const simg = IMG['t'+t];
+    if(simg) ctx.drawImage(simg, sx - W/2, sy - H/2);
+    const isH = hover && hover.col===col && hover.row===row;
+    if(isH){ ctx.fillStyle='rgba(255,247,224,.38)'; ctx.beginPath();
+      ctx.moveTo(sx,sy-H/2); ctx.lineTo(sx+W/2,sy); ctx.lineTo(sx,sy+H/2); ctx.lineTo(sx-W/2,sy); ctx.closePath(); ctx.fill(); }
+    if(showGrid){ ctx.strokeStyle='rgba(0,0,0,.28)'; ctx.lineWidth=1; ctx.beginPath();
+      ctx.moveTo(sx,sy-H/2); ctx.lineTo(sx+W/2,sy); ctx.lineTo(sx,sy+H/2); ctx.lineTo(sx-W/2,sy); ctx.closePath(); ctx.stroke(); }
+    if(showCoords){ ctx.fillStyle='rgba(0,0,0,.6)'; ctx.font='9px monospace'; ctx.textAlign='center'; ctx.fillText(col+','+row, sx, sy+3); }
+    return;
+  }
+  const pal = TILE[t];
+  let topColor = pal.top;
+  if(t===0){ const a = 0.5 + 0.5*Math.sin(z*0.0025 + (col+row)); topColor = mix(pal.top, '#9fd0f0', a*0.4); }
+  const hx=W/2, hy=H/2;
+  ctx.fillStyle = pal.l;
+  ctx.beginPath(); ctx.moveTo(sx-hx,sy); ctx.lineTo(sx,sy+hy); ctx.lineTo(sx,sy+hy+T); ctx.lineTo(sx-hx,sy+T); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = pal.r;
+  ctx.beginPath(); ctx.moveTo(sx+hx,sy); ctx.lineTo(sx,sy+hy); ctx.lineTo(sx,sy+hy+T); ctx.lineTo(sx+hx,sy+T); ctx.closePath(); ctx.fill();
+  const isHover = hover && hover.col===col && hover.row===row;
+  ctx.fillStyle = isHover ? '#fff7e0' : topColor;
+  ctx.beginPath(); ctx.moveTo(sx,sy-hy); ctx.lineTo(sx+hx,sy); ctx.lineTo(sx,sy+hy); ctx.lineTo(sx-hx,sy); ctx.closePath(); ctx.fill();
+  if(showGrid){ ctx.strokeStyle='rgba(0,0,0,.28)'; ctx.lineWidth=1; ctx.stroke(); }
+  else { ctx.strokeStyle='rgba(0,0,0,.08)'; ctx.lineWidth=1; ctx.stroke(); }
+  if(showCoords){ ctx.fillStyle='rgba(0,0,0,.55)'; ctx.font='9px monospace'; ctx.textAlign='center';
+    ctx.fillText(col+','+row, sx, sy+3); }
+}
+function drawObject(o, sx, sy){
+  if(spriteMode && spritesReady){
+    const key = o.kind==='tree' ? 'tree' : o.kind==='rock' ? 'rock' : 'house';
+    const oimg = IMG[key];
+    if(oimg){ ctx.drawImage(oimg, sx - oimg.width/2, sy - oimg.height + 10); return; }
+  }
+  if(o.kind==='tree'){
+    ctx.fillStyle='#6b4a2b'; ctx.fillRect(sx-3, sy-14, 6, 16);
+    ctx.fillStyle='#3f8f3a'; circle(sx, sy-26, 14);
+    ctx.fillStyle='#54aa4c'; circle(sx-8, sy-18, 10); circle(sx+8, sy-18, 10);
+  } else if(o.kind==='rock'){
+    ctx.fillStyle='#8d9299'; circle(sx, sy-6, 10);
+    ctx.fillStyle='#a7adb4'; circle(sx-4, sy-9, 6);
+  } else {
+    ctx.fillStyle='#caa15a'; ctx.fillRect(sx-16, sy-26, 32, 26);
+    ctx.fillStyle='#a4632f'; ctx.beginPath(); ctx.moveTo(sx-20,sy-26); ctx.lineTo(sx,sy-44); ctx.lineTo(sx+20,sy-26); ctx.closePath(); ctx.fill();
+    ctx.fillStyle='#5a3b22'; ctx.fillRect(sx-5, sy-14, 10, 14);
+  }
+}
+
+// ---- Main loop (skills: renderer + depth-sorting-occlusion) ---------
+let frames=0, fpsT=performance.now(), fps=0;
+generate();
+function frame(now){
+  const {ox, oy} = worldOrigin();
+  const wx = (mouseX - ox)/cam.zoom, wy = (mouseY - oy)/cam.zoom;
+  const g = screenToGrid(wx, wy);
+  hover = (g.col>=0&&g.row>=0&&g.col<MAP&&g.row<MAP) ? g : null;
+
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.fillStyle='#0a0a0f'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.setTransform(cam.zoom,0,0,cam.zoom, ox, oy);
+  ctx.textAlign='center';
+
+  for(let s=0; s<=2*(MAP-1); s++){
+    for(let row=0; row<MAP; row++){
+      const col = s-row;
+      if(col<0||col>=MAP) continue;
+      const p = gridToScreen(col,row);
+      drawTile(col,row,p.x,p.y,now);
+      const o = objAt[row+'_'+col];
+      if(o) drawObject(o, p.x, p.y);
+    }
+  }
+
+  frames++;
+  if(now-fpsT>500){ fps=Math.round(frames*1000/(now-fpsT)); frames=0; fpsT=now; }
+  document.getElementById('tile').textContent = hover ? `(${hover.col}, ${hover.row})` : '—';
+  document.getElementById('zoom').textContent = cam.zoom.toFixed(2)+'x';
+  document.getElementById('fps').textContent = fps;
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="470" viewBox="0 0 860 470" font-family="Segoe UI, Arial, sans-serif">
+<rect width="860" height="470" fill="#ffffff"/>
+<text x="30" y="42" font-size="24" font-weight="700" fill="#0f1b33">Isometric Grid Math (2:1)</text>
+<text x="30" y="68" font-size="14" fill="#5b6b88">Convert tile (col, row) to screen pixels (x, y)</text>
+<polygon points="430.0,69.0 472.0,90.0 430.0,111.0 388.0,90.0" fill="#eef4ff" stroke="#9db8e8" stroke-width="1.5"/>
+<text x="430.0" y="94.0" font-size="13" text-anchor="middle" fill="#1f3a6e" font-family="monospace">(0,0)</text>
+<polygon points="472.0,90.0 514.0,111.0 472.0,132.0 430.0,111.0" fill="#dfeaff" stroke="#9db8e8" stroke-width="1.5"/>
+<text x="472.0" y="115.0" font-size="13" text-anchor="middle" fill="#1f3a6e" font-family="monospace">(1,0)</text>
+<polygon points="514.0,111.0 556.0,132.0 514.0,153.0 472.0,132.0" fill="#eef4ff" stroke="#9db8e8" stroke-width="1.5"/>
+<polygon points="556.0,132.0 598.0,153.0 556.0,174.0 514.0,153.0" fill="#dfeaff" stroke="#9db8e8" stroke-width="1.5"/>
+<polygon points="388.0,90.0 430.0,111.0 388.0,132.0 346.0,111.0" fill="#dfeaff" stroke="#9db8e8" stroke-width="1.5"/>
+<text x="388.0" y="115.0" font-size="13" text-anchor="middle" fill="#1f3a6e" font-family="monospace">(0,1)</text>
+<polygon points="430.0,111.0 472.0,132.0 430.0,153.0 388.0,132.0" fill="#eef4ff" stroke="#9db8e8" stroke-width="1.5"/>
+<polygon points="472.0,132.0 514.0,153.0 472.0,174.0 430.0,153.0" fill="#dfeaff" stroke="#9db8e8" stroke-width="1.5"/>
+<text x="472.0" y="157.0" font-size="13" text-anchor="middle" fill="#1f3a6e" font-family="monospace">(2,1)</text>
+<polygon points="514.0,153.0 556.0,174.0 514.0,195.0 472.0,174.0" fill="#eef4ff" stroke="#9db8e8" stroke-width="1.5"/>
+<polygon points="346.0,111.0 388.0,132.0 346.0,153.0 304.0,132.0" fill="#eef4ff" stroke="#9db8e8" stroke-width="1.5"/>
+<polygon points="388.0,132.0 430.0,153.0 388.0,174.0 346.0,153.0" fill="#dfeaff" stroke="#9db8e8" stroke-width="1.5"/>
+<polygon points="430.0,153.0 472.0,174.0 430.0,195.0 388.0,174.0" fill="#eef4ff" stroke="#9db8e8" stroke-width="1.5"/>
+<polygon points="472.0,174.0 514.0,195.0 472.0,216.0 430.0,195.0" fill="#dfeaff" stroke="#9db8e8" stroke-width="1.5"/>
+<polygon points="304.0,132.0 346.0,153.0 304.0,174.0 262.0,153.0" fill="#dfeaff" stroke="#9db8e8" stroke-width="1.5"/>
+<polygon points="346.0,153.0 388.0,174.0 346.0,195.0 304.0,174.0" fill="#eef4ff" stroke="#9db8e8" stroke-width="1.5"/>
+<polygon points="388.0,174.0 430.0,195.0 388.0,216.0 346.0,195.0" fill="#dfeaff" stroke="#9db8e8" stroke-width="1.5"/>
+<polygon points="430.0,195.0 472.0,216.0 430.0,237.0 388.0,216.0" fill="#eef4ff" stroke="#9db8e8" stroke-width="1.5"/>
+<!-- W / H brackets -->
+<line x1="388.0" y1="55.0" x2="472.0" y2="55.0" stroke="#e8852c" stroke-width="2"/>
+<text x="430" y="49.0" font-size="13" text-anchor="middle" fill="#e8852c" font-weight="700">W = tile width</text>
+<line x1="486.0" y1="69.0" x2="486.0" y2="111.0" stroke="#e8852c" stroke-width="2"/>
+<text x="494.0" y="94" font-size="13" fill="#e8852c" font-weight="700">H = tile height</text>
+<!-- formula box -->
+<rect x="30" y="330" width="800" height="112" rx="12" fill="#0f1b33"/>
+<text x="54" y="368" font-size="16" fill="#7fb0ff" font-family="monospace">screenX = (col - row) * W / 2</text>
+<text x="54" y="398" font-size="16" fill="#7fb0ff" font-family="monospace">screenY = (col + row) * H / 2</text>
+<text x="54" y="428" font-size="14" fill="#f5b45a" font-family="monospace">// inverse (picking): solve col, row from screenX, screenY</text>
+<text x="470" y="372" font-size="13" fill="#b9c6e0">2:1 means W = 2 x H</text>
+<text x="470" y="398" font-size="13" fill="#b9c6e0">Round results to integer tiles</text>
+<text x="470" y="424" font-size="13" fill="#b9c6e0">Anchor = tile center here</text>
+<circle cx="472.0" cy="153.0" r="4" fill="#e8852c"/>
+</svg>
