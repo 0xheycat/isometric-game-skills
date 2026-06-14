@@ -6,9 +6,9 @@
 
 The missing toolkit that teaches AI coding agents how senior game artists and engine programmers actually build isometric worlds: seamless tiles, depth-sorted sprites, grid math, and the whole asset pipeline.
 
-![Skills](https://img.shields.io/badge/skills-20-8957e5) ![Format](https://img.shields.io/badge/format-SKILL.md-F5B45A) ![License](https://img.shields.io/badge/license-MIT-22c55e) ![PRs](https://img.shields.io/badge/PRs-welcome-3b82f6) ![GitHub stars](https://img.shields.io/github/stars/0xheycat/isometric-game-skills?style=flat&logo=github&color=f5b45a) ![Validate](https://img.shields.io/github/actions/workflow/status/0xheycat/isometric-game-skills/validate.yml?label=skills%20valid&logo=github) ![Agents](https://img.shields.io/badge/Claude%20·%20Cursor%20·%20Codex-ready-111118)
+![Skills](https://img.shields.io/badge/skills-20-8957e5) ![Format](https://img.shields.io/badge/format-SKILL.md-F5B45A) ![License](https://img.shields.io/badge/license-MIT-22c55e) ![PRs](https://img.shields.io/badge/PRs-welcome-3b82f6) ![GitHub stars](https://img.shields.io/github/stars/0xheycat/isometric-game-skills?style=flat&logo=github&color=f5b45a) ![Validate](https://img.shields.io/github/actions/workflow/status/0xheycat/isometric-game-skills/validate.yml?label=skills%20valid&logo=github) ![Agents](https://img.shields.io/badge/Claude%20·%20Cursor%20·%20Codex-ready-111118) [![Live Demo](https://img.shields.io/badge/▶_demo-live-22c55e?logo=github&logoColor=white)](https://0xheycat.github.io/isometric-game-skills/demo/)
 
-[Quick Start](#-quick-start) · [The Skills](#-the-skill-collection) · [Gallery](#-gallery) · [How Skills Work](#-how-skills-work) · [Contributing](#-contributing) · [Roadmap](#-roadmap)
+[Quick Start](#-quick-start) · [Live Demo](#-live-demo) · [The Skills](#-the-skill-collection) · [Gallery](#-gallery) · [How Skills Work](#-how-skills-work) · [Contributing](#-contributing) · [Roadmap](#-roadmap)
 
 ![Hero banner](assets/hero-banner.png)
 
@@ -41,6 +41,8 @@ Then wire it into your agent (pick your tool):
 Full walkthrough: [`docs/getting-started.md`](docs/getting-started.md).
 
 ## 🎮 Live Demo
+
+**▶️ [Play it live in your browser](https://0xheycat.github.io/isometric-game-skills/demo/)** — hosted on GitHub Pages, no install. Drag to pan, scroll to zoom, toggle 🖼️ Sprites.
 
 A single-file, dependency-free Canvas2D isometric renderer lives in [`demo/`](demo/) — **proof these skills are real, not theory**. Procedural terrain, depth-sorted objects, tile picking, and a pan/zoom camera, all in one HTML file.
 
