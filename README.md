@@ -6,7 +6,7 @@
 
 The missing toolkit that teaches AI coding agents how senior game artists and engine programmers actually build isometric worlds: seamless tiles, depth-sorted sprites, grid math, and the whole asset pipeline.
 
-![Skills](https://img.shields.io/badge/skills-20-8957e5) ![Format](https://img.shields.io/badge/format-SKILL.md-F5B45A) ![License](https://img.shields.io/badge/license-MIT-22c55e) ![PRs](https://img.shields.io/badge/PRs-welcome-3b82f6) ![GitHub stars](https://img.shields.io/github/stars/0xheycat/isometric-game-skills?style=flat&logo=github&color=f5b45a) ![Validate](https://img.shields.io/github/actions/workflow/status/0xheycat/isometric-game-skills/validate.yml?label=skills%20valid&logo=github) ![Agents](https://img.shields.io/badge/Claude%20·%20Cursor%20·%20Codex-ready-111118) [![Live Demo](https://img.shields.io/badge/▶_demo-live-22c55e?logo=github&logoColor=white)](https://0xheycat.github.io/isometric-game-skills/demo/)
+![Skills](https://img.shields.io/badge/skills-21-8957e5) ![Format](https://img.shields.io/badge/format-SKILL.md-F5B45A) ![License](https://img.shields.io/badge/license-MIT-22c55e) ![PRs](https://img.shields.io/badge/PRs-welcome-3b82f6) ![GitHub stars](https://img.shields.io/github/stars/0xheycat/isometric-game-skills?style=flat&logo=github&color=f5b45a) ![Validate](https://img.shields.io/github/actions/workflow/status/0xheycat/isometric-game-skills/validate.yml?label=skills%20valid&logo=github) ![Agents](https://img.shields.io/badge/Claude%20·%20Cursor%20·%20Codex-ready-111118) [![Live Demo](https://img.shields.io/badge/▶_demo-live-22c55e?logo=github&logoColor=white)](https://0xheycat.github.io/isometric-game-skills/demo/)
 
 [Quick Start](#-quick-start) · [Live Demo](#-live-demo) · [The Skills](#-the-skill-collection) · [Gallery](#-gallery) · [How Skills Work](#-how-skills-work) · [Contributing](#-contributing) · [Roadmap](#-roadmap)
 
@@ -70,7 +70,7 @@ These aren't 20 loose tips — they chain into one pipeline that takes an agent 
 
 ## 🧩 The Skill Collection
 
-**20 skills** covering the full isometric game pipeline, grouped by phase. Run them in order, or load just the one you need.
+**21 skills** covering the full isometric game pipeline, grouped by phase. Run them in order, or load just the one you need.
 
 ### 🧭 Meta
 | Skill | What it does |
@@ -106,6 +106,7 @@ These aren't 20 loose tips — they chain into one pipeline that takes an agent 
 | [canvas2d-isometric-renderer](skills/canvas2d-isometric-renderer/SKILL.md) | The core render loop: tiles, then sorted objects. |
 | [depth-sorting-occlusion](skills/depth-sorting-occlusion/SKILL.md) | Correct draw order for tall and multi-tile objects. |
 | [tilemap-data-format](skills/tilemap-data-format/SKILL.md) | Layered, versionable JSON map format. |
+| [godot4-isometric-tilemap](skills/godot4-isometric-tilemap/SKILL.md) | Godot 4 native iso: `TileMapLayer` + Y-sort done right. |
 
 ### 🕹️ Gameplay Systems
 | Skill | What it does |
@@ -151,7 +152,7 @@ PRs welcome — new skills, fixes, and screenshots all help. Read [`CONTRIBUTING
 ## 🗺️ Roadmap
 
 - [x] Core 20 skills (art -> engine -> gameplay -> ship)
-- [ ] Godot / Phaser / Unity engine-specific reference packs
+- [x] Godot 4 engine reference pack ([godot4-isometric-tilemap](skills/godot4-isometric-tilemap/SKILL.md)) — Phaser / Unity next
 - [ ] Downloadable starter tile set (CC0)
 - [ ] Web playground to preview tile sets
 - [ ] Video walkthroughs per skill
