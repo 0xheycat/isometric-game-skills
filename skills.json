@@ -1,5 +1,5 @@
 {
-  "count": 20,
+  "count": 21,
   "skills": [
     {
       "name": "animated-sprite-generation",
@@ -40,6 +40,11 @@
       "name": "depth-sorting-occlusion",
       "path": "skills/depth-sorting-occlusion/SKILL.md",
       "description": "Use when sprites draw in the wrong order so characters appear in front of objects they should be behind in an isometric scene."
+    },
+    {
+      "name": "godot4-isometric-tilemap",
+      "path": "skills/godot4-isometric-tilemap/SKILL.md",
+      "description": "Use when setting up correct 2:1 isometric rendering in Godot 4 with TileMapLayer + Y-sort, mapping this repo's engine-agnostic grid math and depth rules onto Godot's native APIs."
     },
     {
       "name": "isometric-art-direction",
