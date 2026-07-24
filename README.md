@@ -170,3 +170,9 @@ If this saved you a weekend of fighting your agent, **star it** — it helps oth
 ## 📄 License
 
 MIT — see [`LICENSE`](LICENSE). Use it in commercial games, fork it, remix it.
+
+---
+
+## Keywords
+
+<sub>`isometric-game-skills` · `isometric` · `game-development` · `gamedev` · `ai-agents` · `agent-skills` · `claude-code` · `cursor` · `comfyui` · `sdxl` · `sprite-generation` · `tilemap` · `autotiling` · `canvas2d` · `pathfinding` · `depth-sorting` · `godot` · `game-art` · `asset-pipeline` · `procedural-generation` · `2d-games`</sub>
